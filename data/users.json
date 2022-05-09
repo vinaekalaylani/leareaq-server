@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "fullName": "Bunga Mawar Melati",
+        "email": "bunga@mail.com",
+        "password": "123",
+        "position": "Junior Developer",
+        "employeeCode": "EMP1",
+        "reportingManager": "Bunga Mawar Melati",
+        "level": 1
+    },
+    {
+        "id": 2,
+        "fullName": "Susanti Dwi Putri",
+        "email": "susanti@mail.com",
+        "password": "123",
+        "position": "Junior Developer",
+        "employeeCode": "EMP2",
+        "reportingManager": "Bunga Mawar Melati",
+        "level": 0
+    }
+]
