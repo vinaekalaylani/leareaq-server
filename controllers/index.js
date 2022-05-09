@@ -21,6 +21,40 @@ class Controller {
             console.log(error)
         }
     }
+
+    static async login(req, res, next) {
+		try {
+			const { email, password } = req.body;
+
+			const foundUser = await User.findOne({
+				where: {
+					email,
+				},
+			});
+
+			if (!foundUser) {
+				// throw { name: "InvalidInput" };
+                console.log("user not found")
+			}
+
+			if (!comparePassword(password, foundUser.password)) {
+				// throw { name: "InvalidInput" };
+                console.log("Invalid Input");
+			}
+
+			const payload = {
+				fullName: foundUser.fullName,
+				email: foundUser.email,
+                level: foundUser.level
+			};
+
+			const token = signToken(payload);
+
+			res.status(200).json({ access_token: token, level: foundUser.level });
+		} catch (err) {
+			console.log(err);
+		}
+	}
 }
 
 module.exports = Controller
