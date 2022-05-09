@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     reportingManager: {
-      type: DataTypes.STRING.DataTypes,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: { msg: "Reporting Manager can't be empty" },
