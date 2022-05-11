@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Leave, { foreignKey: `UserId` });
     }
   }
   User.init({
@@ -52,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     employeeCode: {
       type: DataTypes.STRING,
+      unique: { msg: "Employee Code must be unique" },
       allowNull: false,
       validate: {
         notEmpty: { msg: "Employee Code can't be empty" },

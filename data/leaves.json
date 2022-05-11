@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "UserId": 2,
+        "type": "Optional",
+        "dayType": "Full",
+        "dateFrom": "2022-05-17",
+        "dateTo": "2022-05-19",
+        "reason": "overtime",
+        "status": "Process"
+    },
+    {
+        "id": 2,
+        "UserId": 2,
+        "type": "Leave",
+        "dayType": "Full",
+        "dateFrom": "2022-05-14",
+        "dateTo": "2022-05-15",
+        "reason": "sick",
+        "status": "Process"
+    }
+]
