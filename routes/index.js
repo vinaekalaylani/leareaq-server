@@ -9,6 +9,7 @@ router.use(authentication)
 router.get("/list", Controller.list);
 router.get("/list-user", Controller.listUser);
 router.get("/list-user-id", Controller.listById);
+router.get("/initial", Controller.getInitial)
 
 router.post("/create-user", Controller.createUser);
 router.post("/request", Controller.reqLeave);
