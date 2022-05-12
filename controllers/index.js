@@ -60,9 +60,9 @@ class Controller {
 
   static async reqLeave(req, res, next) {
     try {
-      const { UserId, type, dayType, dateFrom, dateTo, reason, status } = req.body
+      const { type, dayType, dateFrom, dateTo, reason } = req.body
       const create = await Leave.create({
-        UserId, type, dayType, dateFrom, dateTo, reason, status
+        UserId: req.user.id, type, dayType, dateFrom, dateTo, reason, status: "Process"
       })
 
       const response = {
@@ -104,7 +104,7 @@ class Controller {
 
   static async list(req, res, next) {
     try {
-      const { name, status, dateFrom, dateTo } = req.query
+      const { id, status, dateFrom, dateTo } = req.query
 
       let condition = {
         include: [
@@ -118,6 +118,7 @@ class Controller {
         where: {}
       }
 
+      if (id) condition.where.id = id
       if (status) condition.where.status = status
       if (dateFrom) condition.where.dateFrom = dateFrom
       if (dateTo) condition.where.dateTo = dateTo
@@ -130,34 +131,34 @@ class Controller {
     }
   }
 
-  static async listUser (req, res, next) {
-      try {
-        const { name, manager } = req.query
-  
-        let condition = {
-          include: [
-            {
-              model: Leave
-            }
-          ],
-          order: [
-            ['id', 'ASC']
-          ],
-          where: {}
-        }
-  
-        if (name) condition.where.fullName = { [Op.iLike]: `%${name}%` }
-        if (manager) condition.where.reportingManager = { [Op.iLike]: `%${manager}%` }
-  
-        const data = await User.findAll(condition)
-  
-        res.status(200).json(data)
-      } catch (error) {
-        console.log(error)
+  static async listUser(req, res, next) {
+    try {
+      const { name, manager } = req.query
+
+      let condition = {
+        include: [
+          {
+            model: Leave
+          }
+        ],
+        order: [
+          ['id', 'ASC']
+        ],
+        where: {}
       }
+
+      if (name) condition.where.fullName = { [Op.iLike]: `%${name}%` }
+      if (manager) condition.where.reportingManager = { [Op.iLike]: `%${manager}%` }
+
+      const data = await User.findAll(condition)
+
+      res.status(200).json(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  static async listById (req, res, next) {
+  static async listById(req, res, next) {
     try {
       const { id } = req.user
 
@@ -170,7 +171,7 @@ class Controller {
         order: [
           ['id', 'ASC']
         ],
-        where: { id } 
+        where: { id }
       }
 
       const data = await User.findAll(condition)
@@ -179,7 +180,24 @@ class Controller {
     } catch (error) {
       console.log(error)
     }
-}
+  }
+
+  static async getInitial(req, res, next) {
+    try {
+      const { fullName } = req.user
+      const arrName = fullName.split(' ')
+      let initial = ""
+      if (arrName.length > 1) {
+        initial = arrName[0][0] + arrName[1][0]
+      } else {
+        initial = arrName[0][0]
+      }
+      initial = initial.toUpperCase()
+      res.status(200).json(initial)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = Controller
