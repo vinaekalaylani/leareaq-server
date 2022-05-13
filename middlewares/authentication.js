@@ -6,8 +6,7 @@ const authentication = async (req, res, next) => {
         const { access_token: token } = req.headers
 
         if (!token) {
-            // throw { name : `Unauthenticated`}
-            console.log("Unauthenticated")
+            throw { name : `Unauthenticated`}
         }
         
         const user = verifyToken(token)
