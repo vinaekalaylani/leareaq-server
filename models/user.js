@@ -68,6 +68,25 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "Reporting Manager can't be empty" }
       }
     },
+    reportingManager: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Reporting Manager can't be empty" },
+        notNull: { msg: "Reporting Manager can't be empty" }
+      }
+    },
+    aditionalManager: {
+      type: DataTypes.STRING,
+    },
+    leaveAvailable: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Leave Available can't be empty" },
+        notNull: { msg: "Leave Available can't be empty" }
+      }
+    },
     level: {
       type: DataTypes.INTEGER,
       allowNull: false,
