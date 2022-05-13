@@ -13,6 +13,8 @@ class Controller {
         position,
         employeeCode,
         reportingManager,
+        aditionalManager,
+        leaveAvailable,
         level,
       } = req.body;
       const create = await User.create({
@@ -22,7 +24,9 @@ class Controller {
         position,
         employeeCode,
         reportingManager,
-        level,
+        aditionalManager,
+        leaveAvailable,
+        level
       });
 
       const response = {
@@ -86,7 +90,7 @@ class Controller {
       const count = date2 - date1;
 
       if (type === "Leave" && data_user.leaveAvailable < count) {
-        throw { name: "Exceeding the leave" };
+        res.status(400).json("Exceeding the leave")
       }
 
       const create = await Leave.create({
@@ -116,28 +120,31 @@ class Controller {
       const { status } = req.body;
       const { id } = req.params;
 
-      const data = await Leave.findByPk(id);
+      const data_leave = await Leave.findByPk(id);
+      const data_user = await User.findByPk(data_leave.UserId);
 
-      const from = new Date(data.dateFrom);
-      const to = new Date(data.dateTo);
+      const from = new Date(data_leave.dateFrom);
+      const to = new Date(data_leave.dateTo);
 
       const date1 = from.getDate();
       const date2 = to.getDate();
 
       const count = date2 - date1;
 
-      if (data) {
-        const status = await Leave.update({ status }, { where: { id } });
+      if (data_leave) {
+        await Leave.update({ status }, { where: { id } });
 
-        if (data.type === "Optional") {
+        if (data_leave.type === "Optional") {
+          const available = data_user.leaveAvailable + count
           await User.update(
-            { leaveAvailable: data.leaveAvailable + count },
-            { where: { id } }
+            { leaveAvailable: available },
+            { where: { id: data_leave.UserId } }
           );
-        } else {
+        } else if (data_leave.type === "Leave") {
+          const available = data_user.leaveAvailable - count
           await User.update(
-            { leaveAvailable: data.leaveAvailable - count },
-            { where: { id } }
+            { leaveAvailable: available },
+            { where: { id: data_leave.UserId } }
           );
         }
 
