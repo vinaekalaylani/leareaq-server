@@ -10,8 +10,8 @@ class LeaveController {
       const from = new Date(dateFrom);
       const to = new Date(dateTo);
 
-      const month1 = from.getMonth()+1;
-      const month2 = to.getMonth()+1;
+      const month1 = from.getMonth() + 1;
+      const month2 = to.getMonth() + 1;
 
       const date1 = from.getDate();
       const date2 = to.getDate();
@@ -19,23 +19,23 @@ class LeaveController {
       let count = date2 - date1;
 
       if (month2 > month1) {
-        let date_month = (month2 - month1) * 30
-        count = count + date_month 
+        let date_month = (month2 - month1) * 30;
+        count = count + date_month;
       }
 
       if (type === "Leave" && data_user.leaveAvailable < count) {
-        throw { name: "Exceeding"}
+        throw { name: "Exceeding" };
       }
 
-      // const create = await Leave.create({
-      //   UserId: req.user.id,
-      //   type,
-      //   dayType,
-      //   dateFrom,
-      //   dateTo,
-      //   reason,
-      //   status: "Process",
-      // });
+      const create = await Leave.create({
+        UserId: req.user.id,
+        type,
+        dayType,
+        dateFrom,
+        dateTo,
+        reason,
+        status: "Process",
+      });
 
       const response = {
         UserId: create.UserId,
