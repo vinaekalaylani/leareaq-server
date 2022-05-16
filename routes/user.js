@@ -8,6 +8,7 @@ userRouter.post("/login", UserController.login);
 
 userRouter.use(authentication);
 
+userRouter.get("/user-login", UserController.userLogin)
 userRouter.get("/list", UserController.listUser)
 userRouter.get("/initial", UserController.initialUser)
 userRouter.post("/create", authorization, UserController.createUser);
