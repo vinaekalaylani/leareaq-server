@@ -27,15 +27,15 @@ class LeaveController {
         throw { name: "Exceeding"}
       }
 
-      // const create = await Leave.create({
-      //   UserId: req.user.id,
-      //   type,
-      //   dayType,
-      //   dateFrom,
-      //   dateTo,
-      //   reason,
-      //   status: "Process",
-      // });
+      const create = await Leave.create({
+        UserId: req.user.id,
+        type,
+        dayType,
+        dateFrom,
+        dateTo,
+        reason,
+        status: "Process",
+      });
 
       const response = {
         UserId: create.UserId,
