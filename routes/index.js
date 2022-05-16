@@ -1,19 +1,12 @@
 const express = require("express");
-const Controller = require("../controllers");
-const authentication = require(`../middlewares/authentication`) 
 const router = express.Router();
+const userRouter = require("./user");
+const leaveRouter = require("./leave");
+const errorHandler = require('../middlewares/errorHandler');
 
-router.post("/login", Controller.login);
-router.use(authentication)
+router.use("/user", userRouter);
+router.use("/leave", leaveRouter);
 
-router.get("/list", Controller.list);
-router.get("/list-user", Controller.listUser);
-router.get("/list-user-id", Controller.listById);
-router.get("/initial", Controller.getInitial)
-
-router.post("/create-user", Controller.createUser);
-router.post("/request", Controller.reqLeave);
-
-router.put("/approve/:id", Controller.appLeave)
+router.use(errorHandler)
 
 module.exports = router;
