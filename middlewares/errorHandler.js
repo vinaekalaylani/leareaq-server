@@ -24,8 +24,11 @@ const errorHandler = (err, req, res, next) => {
     code = 404;
     msg = "Leave Not Found";
   } else if (err.name === "Exceeding") {
-      code = 404;
-      msg = "Exceeding the leave"
+    code = 404;
+    msg = "Exceeding the leave"
+  } else if (err.name === "BadRequest") {
+    code = 404;
+    msg = "Can't delte your own data"
   }
 
   res.status(code).json({ message: msg });
