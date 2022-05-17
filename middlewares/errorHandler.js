@@ -28,7 +28,7 @@ const errorHandler = (err, req, res, next) => {
     msg = "Exceeding the leave"
   } else if (err.name === "BadRequest") {
     code = 404;
-    msg = "Can't delte your own data"
+    msg = "Can't delete your own data"
   }
 
   res.status(code).json({ message: msg });
