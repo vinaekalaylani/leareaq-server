@@ -95,9 +95,9 @@ class UserController {
       const foundUser = await User.findByPk(id);
 
       if (!foundUser) throw { name: "UserNotFound" };
-      if (userId === id) throw { name: "BadRequest" };
+      if (userId == id) throw { name: "BadRequest" };
 
-      await User.destroy({ where: { id } });
+      // await User.destroy({ where: { id } });
 
       res.status(200).json({ message: `Success delete user` });
     } catch (error) {
