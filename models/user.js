@@ -51,30 +51,8 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "Position can't be empty" }
       }
     },
-    employeeCode: {
-      type: DataTypes.STRING,
-      unique: { msg: "Employee Code must be unique" },
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Employee Code can't be empty" },
-        notNull: { msg: "Employee Code can't be empty" }
-      }
-    },
     reportingManager: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Reporting Manager can't be empty" },
-        notNull: { msg: "Reporting Manager can't be empty" }
-      }
-    },
-    reportingManager: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Reporting Manager can't be empty" },
-        notNull: { msg: "Reporting Manager can't be empty" }
-      }
     },
     aditionalManager: {
       type: DataTypes.STRING,
@@ -89,6 +67,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     level: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Level can't be empty" },
+        notNull: { msg: "Level can't be empty" }
+      }
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       validate: {
         notEmpty: { msg: "Level can't be empty" },

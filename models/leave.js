@@ -55,6 +55,14 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "Date To can't be empty" }
       }
     },
+    totalDays: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Total Days can't be empty" },
+        notNull: { msg: "Total Days can't be empty" }
+      }
+    },
     reason: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -64,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type:  DataTypes.STRING,
+      type:  DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: { msg: "Status can't be empty" },

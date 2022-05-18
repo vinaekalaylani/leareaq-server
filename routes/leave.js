@@ -8,7 +8,8 @@ leaveRouter.use(authentication);
 
 leaveRouter.post("/create", LeaveController.create);
 leaveRouter.get("/list", LeaveController.list);
-leaveRouter.get("/list/:id", LeaveController.listById);
+leaveRouter.get("/history", LeaveController.history);
+leaveRouter.get("/list/:id", LeaveController.detail);
 leaveRouter.patch("/update/:id", authorization, LeaveController.appLeave);
 
 

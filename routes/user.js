@@ -12,9 +12,9 @@ userRouter.get("/user-login", UserController.userLogin)
 userRouter.get("/list", UserController.listUser)
 userRouter.get("/initial", UserController.initialUser)
 userRouter.post("/create", authorization, UserController.createUser);
-userRouter.get("/detail/:id", authorization, UserController.detailUser);
-userRouter.patch("/update/:id", authorization, UserController.updateLeave);
+userRouter.get("/detail/:id", UserController.detailUser);
+userRouter.put("/update/:id", authorization, UserController.updateUser);
 userRouter.delete("/delete/:id", authorization, UserController.deleteUser);
-
+userRouter.patch("/update-leave/:id", authorization, UserController.updateLeave);
 
 module.exports = userRouter

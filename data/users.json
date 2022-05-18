@@ -5,11 +5,11 @@
         "email": "bunga@mail.com",
         "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
         "position": "Full Stack Developer",
-        "employeeCode": "EMP232424",
-        "reportingManager": "Bunga Mawar Melati",
+        "reportingManager": "Alan Putra",
         "aditionalManager": "Tyara Putri",
         "leaveAvailable": 12,
-        "level": 1
+        "level": 1,
+        "isDeleted": false
     },
     {
         "id": 2,
@@ -17,11 +17,11 @@
         "email": "susanti@mail.com",
         "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
         "position": "Junior Developer",
-        "employeeCode": "EMP3423423",
         "reportingManager": "Bunga Mawar Melati",
-        "aditionalManager": "Opa Bunga",
+        "aditionalManager": "Alan Putra",
         "leaveAvailable": 12,
-        "level": 0
+        "level": 0,
+        "isDeleted": false
     },
     {
         "id": 3,
@@ -29,11 +29,11 @@
         "email": "tyara@mail.com",
         "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
         "position": "Senior Developer",
-        "employeeCode": "EMP2313123",
         "reportingManager": "Tyara Putri",
         "aditionalManager": "Alan Putra",
         "leaveAvailable": 12,
-        "level": 1
+        "level": 1,
+        "isDeleted": false
     },
     {
         "id": 4,
@@ -41,10 +41,10 @@
         "email": "alan@mail.com",
         "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
         "position": "Senior Developer",
-        "employeeCode": "EMP2313123",
         "reportingManager": "Alan Putra",
         "aditionalManager": "-",
         "leaveAvailable": 12,
-        "level": 1
+        "level": 1,
+        "isDeleted": false
     }
 ]

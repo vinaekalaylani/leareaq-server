@@ -28,13 +28,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATEONLY
       },
+      totalDays: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       reason: {
         allowNull: false,
         type: Sequelize.TEXT
       },
       status: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

@@ -1,30 +1,16 @@
 const { User, Leave } = require("../models");
+const { Op } = require("sequelize");
+
 class LeaveController {
   static async create(req, res, next) {
     try {
       const { id } = req.user;
-      const { type, dayType, dateFrom, dateTo, reason } = req.body;
+      const { type, dayType, dateFrom, dateTo, totalDays, reason } = req.body;
 
       const data_user = await User.findByPk(id);
 
-      const from = new Date(dateFrom);
-      const to = new Date(dateTo);
-
-      const month1 = from.getMonth()+1;
-      const month2 = to.getMonth()+1;
-
-      const date1 = from.getDate();
-      const date2 = to.getDate();
-
-      let count = date2 - date1;
-
-      if (month2 > month1) {
-        let date_month = (month2 - month1) * 30
-        count = count + date_month 
-      }
-
-      if (type === "Leave" && data_user.leaveAvailable < count) {
-        throw { name: "Exceeding"}
+      if (data_user.leaveAvailable < totalDays) {
+        throw { name: "Exceeding" }
       }
 
       const create = await Leave.create({
@@ -33,8 +19,9 @@ class LeaveController {
         dayType,
         dateFrom,
         dateTo,
+        totalDays,
         reason,
-        status: "Process",
+        status: 0,
       });
 
       const response = {
@@ -57,31 +44,23 @@ class LeaveController {
       const data_leave = await Leave.findByPk(id);
       const data_user = await User.findByPk(data_leave.UserId);
 
-      const from = new Date(data_leave.dateFrom);
-      const to = new Date(data_leave.dateTo);
-
-      const date1 = from.getDate();
-      const date2 = to.getDate();
-
-      const count = date2 - date1;
-
       if (!data_leave) throw { name: "LeaveNotFound" };
 
       await Leave.update({ status }, { where: { id } });
 
+      const available = 0
       if (data_leave.type === "Optional") {
-        const available = data_user.leaveAvailable + count;
-        await User.update(
-          { leaveAvailable: available },
-          { where: { id: data_leave.UserId } }
-        );
-      } else if (data_leave.type === "Leave") {
-        const available = data_user.leaveAvailable - count;
-        await User.update(
-          { leaveAvailable: available },
-          { where: { id: data_leave.UserId } }
-        );
+        available = data_user.leaveAvailable + data_user.totalDays;
+      } else if (data_leave.type === "Unpaid") {
+        available = data_user.leaveAvailable
+      } else {
+        available = data_user.leaveAvailable - data_user.totalDays;
       }
+
+      await User.update(
+        { leaveAvailable: available },
+        { where: { id: data_leave.UserId } }
+      );
 
       res.status(200).json({ message: `Success edit status` });
     } catch (error) {
@@ -91,7 +70,35 @@ class LeaveController {
 
   static async list(req, res, next) {
     try {
-      const { status, type } = req.query;
+      const { level, fullName } = req.user
+      const leaves = await Leave.findAll({
+        include: [
+          {
+            model: User,
+          },
+        ],
+        order: [["createdAt", "DESC"], ["status", "ASC"]],
+      });
+
+      let data
+      if (level == 0) {
+        data = leaves.filter(el => el.User.fullName === fullName);
+      } else if (level == 1) {
+        data = leaves.filter(el => el.User.reportingManager === fullName || el.User.aditionalManager === fullName);
+      } else {
+        data = leaves
+      }
+
+      res.status(200).json(data);
+    } catch (error) {
+      console.log(error)
+      next(error);
+    }
+  }
+
+  static async history(req, res, next) {
+    try {
+      const { status, type, year, isDeleted } = req.query;
 
       let condition = {
         include: [
@@ -99,22 +106,26 @@ class LeaveController {
             model: User,
           },
         ],
-        order: [["updatedAt", "DESC"]],
+        order: [["createdAt", "DESC"]],
         where: {},
       };
 
       if (status) condition.where.status = status;
       if (type) condition.where.type = type;
+      if (isDeleted) condition.where.isDeleted = isDeleted;
+      if (year) {
+        condition.where.dateFrom = { [Op.iLike]: `%${year}%` };
+        condition.where.dateTo = { [Op.iLike]: `%${year}%` };
+      }
 
       const data = await Leave.findAll(condition);
-
       res.status(200).json(data);
     } catch (error) {
       next(error);
     }
   }
 
-  static async listById(req, res, next) {
+  static async detail(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -124,11 +135,9 @@ class LeaveController {
             model: User,
           },
         ],
-        order: [["updatedAt", "DESC"]],
       });
 
       if (!data) throw { name: "LeaveNotFound" };
-
       res.status(200).json(data);
     } catch (error) {
       next(error);
