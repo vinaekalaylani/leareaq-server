@@ -1,46 +1,9 @@
 const { User, Leave } = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
+const { Op } = require("sequelize");
 
 class UserController {
-  static async createUser(req, res, next) {
-    try {
-      const {
-        fullName,
-        email,
-        password,
-        position,
-        employeeCode,
-        reportingManager,
-        aditionalManager,
-        leaveAvailable,
-        level,
-      } = req.body;
-
-      const create = await User.create({
-        fullName,
-        email,
-        password,
-        position,
-        employeeCode,
-        reportingManager,
-        aditionalManager,
-        leaveAvailable,
-        level,
-      });
-
-      const response = {
-        fullName: create.fullName,
-        email: create.email,
-        level: create.level,
-      };
-
-      res.status(201).json(response);
-    } catch (error) {
-      next(error);
-    }
-  }
-
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -63,8 +26,64 @@ class UserController {
       };
 
       const token = signToken(payload);
-
       res.status(200).json({ access_token: token, level: foundUser.level });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async createUser(req, res, next) {
+    try {
+      const {
+        fullName,
+        email,
+        password,
+        position,
+        reportingManager,
+        aditionalManager,
+        leaveAvailable,
+        level,
+      } = req.body;
+
+      const create = await User.create({
+        fullName,
+        email,
+        password,
+        position,
+        reportingManager,
+        aditionalManager,
+        leaveAvailable,
+        level,
+        isDeleted: false
+      });
+
+      const response = {
+        fullName: create.fullName,
+        email: create.email,
+        level: create.level,
+      };
+
+      res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUser(req, res, next) {
+    try {
+      const { fullName, email, password, position, reportingManager, aditionalManager, leaveAvailable, level } = req.body;
+
+      const { id } = req.params;
+
+      const foundUser = await User.findByPk(id);
+
+      if (!foundUser) throw { name: "UserNotFound" };
+
+      await User.update({
+        fullName, email, password, position, reportingManager, aditionalManager, leaveAvailable, level, isDeleted: false
+      }, { where: { id } });
+
+      res.status(200).json({ message: `Success edit user` });
     } catch (error) {
       next(error);
     }
@@ -97,7 +116,7 @@ class UserController {
       if (!foundUser) throw { name: "UserNotFound" };
       if (userId == id) throw { name: "BadRequest" };
 
-      // await User.destroy({ where: { id } });
+      await User.update({ isDeleted: true }, { where: { id } });
 
       res.status(200).json({ message: `Success delete user` });
     } catch (error) {
@@ -124,11 +143,18 @@ class UserController {
 
   static async listUser(req, res, next) {
     try {
-      const data_user = await User.findAll({
+      const { fullName } = req.query
+      
+      const condition = {
         attributes: {
           exclude: ["password", "createdAt", "updatedAt"],
         },
-      });
+        order: [["fullName", "DESC"]],
+        where: {}
+      }
+      
+      if (fullName) condition.where.fullName = { [Op.iLike]: `%${fullName}%` }
+      const data_user = await User.findAll(condition);
       res.status(200).json(data_user);
     } catch (error) {
       next(error);

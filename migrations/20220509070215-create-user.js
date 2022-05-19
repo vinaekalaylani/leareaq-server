@@ -24,12 +24,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      employeeCode: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       reportingManager: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       aditionalManager: {
@@ -42,6 +37,10 @@ module.exports = {
       level: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      isDeleted: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

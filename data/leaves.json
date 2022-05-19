@@ -2,21 +2,23 @@
     {
         "id": 1,
         "UserId": 2,
-        "type": "Optional",
+        "type": "Vacation",
         "dayType": "Full",
         "dateFrom": "2022-05-17",
         "dateTo": "2022-05-19",
-        "reason": "overtime",
-        "status": "Process"
+        "totalDays": 3,
+        "reason": "butuh refreshing",
+        "status": 0
     },
     {
         "id": 2,
         "UserId": 2,
-        "type": "Leave",
+        "type": "Sick",
         "dayType": "Full",
-        "dateFrom": "2022-05-14",
-        "dateTo": "2022-05-15",
-        "reason": "sick",
-        "status": "Process"
+        "dateFrom": "2022-05-24",
+        "dateTo": "2022-05-25",
+        "totalDays": 2,
+        "reason": "sakit demam",
+        "status": 0
     }
 ]
