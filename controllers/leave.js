@@ -48,13 +48,13 @@ class LeaveController {
 
       await Leave.update({ status }, { where: { id } });
 
-      const available = 0
+      let available = 0
       if (data_leave.type === "Optional") {
-        available = data_user.leaveAvailable + data_user.totalDays;
+        available = data_user.leaveAvailable + data_leave.totalDays;
       } else if (data_leave.type === "Unpaid") {
         available = data_user.leaveAvailable
       } else {
-        available = data_user.leaveAvailable - data_user.totalDays;
+        available = data_user.leaveAvailable - data_leave.totalDays;
       }
 
       await User.update(
@@ -64,6 +64,7 @@ class LeaveController {
 
       res.status(200).json({ message: `Success edit status` });
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }
@@ -77,7 +78,7 @@ class LeaveController {
             model: User,
           },
         ],
-        order: [["createdAt", "DESC"], ["status", "ASC"]],
+        order: [["status", "ASC"]],
       });
 
       let data
@@ -91,7 +92,6 @@ class LeaveController {
 
       res.status(200).json(data);
     } catch (error) {
-      console.log(error)
       next(error);
     }
   }
@@ -112,13 +112,18 @@ class LeaveController {
 
       if (status) condition.where.status = status;
       if (type) condition.where.type = type;
-      if (isDeleted) condition.where.isDeleted = isDeleted;
+      const history = await Leave.findAll(condition);
+      let data = await history.filter(el => `${el.User.isDeleted}` == isDeleted)
+      
       if (year) {
-        condition.where.dateFrom = { [Op.iLike]: `%${year}%` };
-        condition.where.dateTo = { [Op.iLike]: `%${year}%` };
+        const temp = data
+        const arr = []
+        temp.map(el => {
+          if (el.dateFrom.includes(year) || el.dateTo.includes(year)) arr.push(el)
+        })
+        data = arr
       }
 
-      const data = await Leave.findAll(condition);
       res.status(200).json(data);
     } catch (error) {
       next(error);

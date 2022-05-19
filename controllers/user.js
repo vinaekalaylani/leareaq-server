@@ -71,7 +71,7 @@ class UserController {
 
   static async updateUser(req, res, next) {
     try {
-      const { fullName, email, password, position, reportingManager, aditionalManager, leaveAvailable, level } = req.body;
+      const { fullName, email, position, reportingManager, aditionalManager, leaveAvailable, level } = req.body;
 
       const { id } = req.params;
 
@@ -80,7 +80,7 @@ class UserController {
       if (!foundUser) throw { name: "UserNotFound" };
 
       await User.update({
-        fullName, email, password, position, reportingManager, aditionalManager, leaveAvailable, level, isDeleted: false
+        fullName, email, password: foundUser.password, position, reportingManager, aditionalManager, leaveAvailable, level, isDeleted: foundUser.isDeleted
       }, { where: { id } });
 
       res.status(200).json({ message: `Success edit user` });
@@ -143,17 +143,18 @@ class UserController {
 
   static async listUser(req, res, next) {
     try {
-      const { fullName } = req.query
+      const { fullName, isDeleted } = req.query
       
       const condition = {
         attributes: {
           exclude: ["password", "createdAt", "updatedAt"],
         },
-        order: [["fullName", "DESC"]],
+        order: [["fullName", "ASC"]],
         where: {}
       }
       
       if (fullName) condition.where.fullName = { [Op.iLike]: `%${fullName}%` }
+      if (isDeleted) condition.where.isDeleted = isDeleted
       const data_user = await User.findAll(condition);
       res.status(200).json(data_user);
     } catch (error) {
