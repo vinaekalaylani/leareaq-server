@@ -86,7 +86,7 @@ class LeaveController {
       if (level == 0) {
         data = leaves.filter(el => el.User.fullName === fullName);
       } else if (level == 1) {
-        data = leaves.filter(el => el.User.reportingManager === fullName || el.User.aditionalManager === fullName);
+        data = leaves.filter(el => el.User.reportingManager === fullName || el.User.aditionalManager === fullName || el.User.fullName === fullName);
       } else {
         data = leaves
       }
