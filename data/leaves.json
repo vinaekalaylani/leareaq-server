@@ -8,7 +8,8 @@
         "dateTo": "2022-05-19",
         "totalDays": 3,
         "reason": "butuh refreshing",
-        "status": 0
+        "status": 0,
+        "approvedBy": ""
     },
     {
         "id": 2,
@@ -19,6 +20,19 @@
         "dateTo": "2022-05-25",
         "totalDays": 2,
         "reason": "sakit demam",
-        "status": 0
+        "status": 0,
+        "approvedBy": ""
+    },
+    {
+        "id": 2,
+        "UserId": 1,
+        "type": "Sick",
+        "dayType": "Full",
+        "dateFrom": "2022-05-24",
+        "dateTo": "2022-05-25",
+        "totalDays": 2,
+        "reason": "sakit demam",
+        "status": 1,
+        "approvedBy": "Alan Putra"
     }
 ]

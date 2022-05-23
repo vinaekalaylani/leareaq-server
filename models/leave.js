@@ -78,6 +78,9 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: "Status can't be empty" },
         notNull: { msg: "Status can't be empty" }
       }
+    },
+    approvedBy: {
+      type:  DataTypes.STRING,
     }
   }, {
     hooks: {
