@@ -22,6 +22,7 @@ class LeaveController {
         totalDays,
         reason,
         status: 0,
+        approvedBy: ""
       });
 
       const response = {
@@ -40,13 +41,14 @@ class LeaveController {
     try {
       const { status } = req.body;
       const { id } = req.params;
+      const { fullName } = req.user
 
       const data_leave = await Leave.findByPk(id);
       const data_user = await User.findByPk(data_leave.UserId);
 
       if (!data_leave) throw { name: "LeaveNotFound" };
 
-      await Leave.update({ status }, { where: { id } });
+      await Leave.update({ status, approvedBy: fullName }, { where: { id } });
 
       let available = 0
       if (data_leave.type === "Optional") {
@@ -64,7 +66,6 @@ class LeaveController {
 
       res.status(200).json({ message: `Success edit status` });
     } catch (error) {
-      console.log(error)
       next(error);
     }
   }

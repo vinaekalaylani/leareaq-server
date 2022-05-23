@@ -4,10 +4,16 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.name === "SequelizeValidationError") {
     code = 400;
-    msg = err.errors[0].message;
+    let temp = err.errors.map(el => {
+      return el.message
+    })
+    msg = temp.join(", ")
   } else if (err.name === "SequelizeUniqueConstraintError") {
     code = 400;
-    msg = err.errors[0].message;
+    let temp = err.errors.map(el => {
+      return el.message
+    })
+    msg = temp.join(", ")
   } else if (err.name === "InvalidInput") {
     code = 401;
     msg = "Invalid email/password";
