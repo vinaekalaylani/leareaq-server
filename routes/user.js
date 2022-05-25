@@ -14,7 +14,7 @@ userRouter.get("/initial", UserController.initialUser)
 userRouter.post("/create", authorization, UserController.createUser);
 userRouter.get("/detail/:id", UserController.detailUser);
 userRouter.put("/update/:id", authorization, UserController.updateUser);
-userRouter.delete("/delete/:id", authorization, UserController.deleteUser);
+userRouter.patch("/delete/:id", authorization, UserController.deleteUser);
 userRouter.patch("/update-leave/:id", authorization, UserController.updateLeave);
 
 module.exports = userRouter
