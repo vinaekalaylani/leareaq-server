@@ -1,48 +1,12 @@
 [
     {
         "id": 1,
-        "fullName": "Bunga Mawar Melati",
-        "email": "bunga@mail.com",
+        "fullName": "Admin",
+        "email": "admin@mail.com",
         "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
-        "position": "Full Stack Developer",
-        "reportingManager": "Alan Putra",
-        "aditionalManager": "Tyara Putri",
-        "leaveAvailable": 12,
-        "level": 1,
-        "isDeleted": false
-    },
-    {
-        "id": 2,
-        "fullName": "Susanti Dwi Putri",
-        "email": "susanti@mail.com",
-        "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
-        "position": "Junior Developer",
-        "reportingManager": "Bunga Mawar Melati",
-        "aditionalManager": "Alan Putra",
-        "leaveAvailable": 12,
-        "level": 0,
-        "isDeleted": false
-    },
-    {
-        "id": 3,
-        "fullName": "Tyara Putri",
-        "email": "tyara@mail.com",
-        "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
-        "position": "Senior Developer",
-        "reportingManager": "Tyara Putri",
-        "aditionalManager": "Alan Putra",
-        "leaveAvailable": 12,
-        "level": 1,
-        "isDeleted": false
-    },
-    {
-        "id": 4,
-        "fullName": "Alan Putra",
-        "email": "alan@mail.com",
-        "password": "$2a$10$qYUTNZOenwHjOeDZID1AxOrqlZ1JZKGnOIDxqSqW1Ay9gH/K5B2oK",
-        "position": "Senior Developer",
-        "reportingManager": "Alan Putra",
-        "aditionalManager": "-",
+        "position": "Admin",
+        "reportingManager": "",
+        "aditionalManager": "",
         "leaveAvailable": 12,
         "level": 1,
         "isDeleted": false
