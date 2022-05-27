@@ -47,7 +47,7 @@ class LeaveController {
       const data_user = await User.findByPk(data_leave.UserId);
 
       if (!data_leave) throw { name: "LeaveNotFound" };
-      if (data_user.leaveAvailable < data_leave.totalDays) throw { name: "Exceeding" }
+      if (data_user.leaveAvailable < data_leave.totalDays && status === 1) throw { name: "Exceeding" }
       
       await Leave.update({ status, approvedBy: fullName }, { where: { id } });
 
