@@ -52,12 +52,16 @@ class LeaveController {
       await Leave.update({ status, approvedBy: fullName }, { where: { id } });
 
       let available = 0
-      if (data_leave.type === "Optional") {
-        available = data_user.leaveAvailable + data_leave.totalDays;
-      } else if (data_leave.type === "Unpaid") {
-        available = data_user.leaveAvailable
+      if (status === 1) {
+        if (data_leave.type === "Optional") {
+          available = data_user.leaveAvailable + data_leave.totalDays;
+        } else if (data_leave.type === "Unpaid") {
+          available = data_user.leaveAvailable
+        } else {
+          available = data_user.leaveAvailable - data_leave.totalDays;
+        }
       } else {
-        available = data_user.leaveAvailable - data_leave.totalDays;
+        available = data_user.leaveAvailable
       }
 
       await User.update(
